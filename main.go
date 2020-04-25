@@ -7,6 +7,7 @@ import (
   "os"
   "log"
   "fmt"
+  _ "github.com/lib/pq"
 )
 
 func newRouter() *mux.Router {
