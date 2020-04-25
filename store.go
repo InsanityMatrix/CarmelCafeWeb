@@ -16,7 +16,7 @@ type Product struct {
   ProductID int
   Name string
   Options string
-  Price double
+  Price float
   Image string
 }
 func (store *dbStore) GetProducts() []Products {
