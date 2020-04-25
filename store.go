@@ -13,7 +13,10 @@ type Products struct {
   Total int
 }
 func (store *dbStore) GetProducts() []Products {
-  rows, _ := store.db.Query("SELECT * FROM products ORDER BY id ASC")
+  rows, err := store.db.Query("SELECT * FROM products ORDER BY id ASC")
+  if err != nil {
+    panic(err)
+  }
   defer rows.Close()
 
   products := []Products{}
