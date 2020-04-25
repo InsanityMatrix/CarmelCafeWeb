@@ -13,6 +13,7 @@ import (
 func newRouter() *mux.Router {
   r := mux.NewRouter()
   r.HandleFunc("/products", productListHandler)
+  r.HandleFunc("/section", sectionHandler)
   return r
 }
 //ENVIRONMENT VARIABLES: CCDB_URL
@@ -39,6 +40,18 @@ func main() {
 func productListHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type", "application/json")
   products := store.GetProducts()
+  data, _ := json.Marshal(products)
+  fmt.Fprint(w, string(data))
+}
+func sectionHandler(w http.ResponseWriter, r *http.Request) {
+  err := r.ParseForm()
+  if err != nil {
+    fmt.Fprint(w, "false")
+    return
+  }
+  w.Header().Set("Content-Type", "application/json")
+  section := r.Form.Get("Section")
+  products := store.GetSection(section)
   data, _ := json.Marshal(products)
   fmt.Fprint(w, string(data))
 }

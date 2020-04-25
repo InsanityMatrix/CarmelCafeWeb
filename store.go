@@ -12,6 +12,13 @@ type Products struct {
   Image string
   Total int
 }
+type Product struct {
+  ProductID int
+  Name string
+  Options string
+  Price double
+  Image string
+}
 func (store *dbStore) GetProducts() []Products {
   rows, err := store.db.Query("SELECT * FROM products ORDER BY id ASC")
   if err != nil {
@@ -27,6 +34,22 @@ func (store *dbStore) GetProducts() []Products {
     products = append(products, product)
   }
 
+  return products
+}
+func (store *dbStore) GetSection(section string) []Product {
+  rows, err := store.db.Query("SELECT * FROM " + section + "Products ORDER BY id ASC")
+  if err != nil {
+    panic(err)
+  }
+  defer rows.Close()
+
+  products := []Product{}
+  for rows.Next() {
+    product := Product{}
+
+    _ = rows.Scan(&product.ProductID, &product.Name, &product.Options, &product.Price, &product.Image)
+    products = append(products, product)
+  }
   return products
 }
 
