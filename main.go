@@ -14,6 +14,7 @@ func newRouter() *mux.Router {
   r := mux.NewRouter()
   r.HandleFunc("/products", productListHandler)
   r.HandleFunc("/section", sectionHandler)
+  r.HandleFunc("/product", productHandler)
   return r
 }
 //ENVIRONMENT VARIABLES: CCDB_URL
@@ -53,5 +54,18 @@ func sectionHandler(w http.ResponseWriter, r *http.Request) {
   section := r.Form.Get("Section")
   products := store.GetSection(section)
   data, _ := json.Marshal(products)
+  fmt.Fprint(w, string(data))
+}
+func productHandler(w http.ResponseWriter, r *http.Request) {
+  err := r.ParseForm()
+  if err != nil {
+    fmt.Fprint(w, "false")
+    return
+  }
+  w.Header().Set("Content-Type", "application/json")
+  section := r.Form.Get("Section")
+  id := r.Form.Get("ProductID")
+  product := store.GetProduct(section, id)
+  data, _ := json.Marshal(product)
   fmt.Fprint(w, string(data))
 }

@@ -52,7 +52,13 @@ func (store *dbStore) GetSection(section string) []Product {
   }
   return products
 }
-
+func (store *dbStore) GetProduct(section string, pID string) Product {
+  id, _ := strconv.Atoi(pID)
+  row := store.db.QueryRow("SELECT * FROM " + section + "Products WHERE id=$1", id)
+  product := Product{}
+  _ = row.Scan(&product.ProductID, &product.Name, &product.Options, &product.Price, &product.Image)
+  return product
+}
 
 var store dbStore
 func InitStore(s dbStore) {
