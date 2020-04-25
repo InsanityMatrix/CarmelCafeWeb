@@ -9,6 +9,7 @@ type dbStore struct {
 type Products struct {
   ProductID int
   Name string
+  Image string
   Total int
 }
 func (store *dbStore) GetProducts() []Products {
@@ -19,7 +20,7 @@ func (store *dbStore) GetProducts() []Products {
   for rows.Next() {
     product := Products{}
 
-    _ = rows.Scan(&product.ProductID, &product.Name, &product.Total)
+    _ = rows.Scan(&product.ProductID, &product.Name, &product.Total, &product.Image)
     products = append(products, product)
   }
 
