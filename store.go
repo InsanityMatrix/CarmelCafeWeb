@@ -20,6 +20,12 @@ type Product struct {
   Price float64
   Image string
 }
+type Order struct {
+  Product Product
+  Quantity int
+  Flavor string
+}
+
 func (store *dbStore) GetProducts() []Products {
   rows, err := store.db.Query("SELECT * FROM products ORDER BY id ASC")
   if err != nil {
