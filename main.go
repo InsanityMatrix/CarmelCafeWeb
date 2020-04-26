@@ -82,5 +82,6 @@ func orderHandler(w http.ResponseWriter, r *http.Request) {
   //order will be json array
   var orders []Order
   json.Unmarshal([]byte(orderJSON),&orders)
-  log.Fatalf("%#v", orders)
+  //We can now set up the Square Orders with the order info we have, ez dubs
+  fmt.Fprint(w, orders)
 }
